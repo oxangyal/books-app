@@ -1,42 +1,51 @@
 import { useEffect, useState } from 'react';
-
-function stripHtmlTags(html) {
-	const div = document.createElement('div');
-	div.innerHTML = html;
-	return div.textContent || div.innerText || '';
-}
+import parse from 'html-react-parser';
+import axios from 'axios';
+import { getBookById } from '../../../api/booksApi';
 
 function BookDetails({ bookId }) {
 	const [book, setBook] = useState(null);
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
-		fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`)
-			.then((response) => response.json())
-			.then((data) => {
-				setBook(data);
+		getBookById(bookId)
+		// axios
+		// 	.get(`https://www.googleapis.com/books/v1/volumes/${bookId}`) //axios 
+		// fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`) //fetch
+			// .then((response) => response.json()) it was for fetch
+			// .then((data) => {
+			.then((response) => {
+				setBook(response.data);
+				// setBook(data);
+				setError(false);
 			})
-			.catch((error) => console.error(error));
+			.catch((error) => {
+				console.error(error);
+				setError(true);
+			});
 	}, [bookId]);
 
+	// wait for the book when it comes
     if (!book) {
         return <div>Loading...</div>
     }
-	const description = stripHtmlTags(book.volumeInfo.description);
 
+	if (error) {
+	return <div className="container">Book not found</div>
+	}
+	
 	return (
 		<div className="book">
-			<h1>{book.volumeInfo.title}</h1>
-			<h2>{book.volumeInfo.authors.join(', ')}</h2>
-			<p>{description}</p>
-			<img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} />
+			<h1>{book.volumeInfo.title ? book.volumeInfo.title : 'No title' }</h1>
+			<h2>{book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'No authors'}</h2>
+			<div>{book.volumeInfo.description ? parse(book.volumeInfo.description) : 'No description available'}</div>
+			{book.volumeInfo.imageLinks && <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} />}
 
-			
-			<h3 className="country">{book.volumeInfo.country}</h3>
-			<h3 className="language">Language:<span> {(book.volumeInfo.language).toUpperCase()} </span></h3>
-			<h3> Category: <span>{book.volumeInfo.categories}</span></h3>
-			<h3> Link:  <a href={book.volumeInfo.previewLink}> {book.volumeInfo.previewLink}</a></h3>
+
 			<h3 className="category">Date of Publishing: <span>{book.volumeInfo.publishedDate} </span></h3>
-			
+
+			{/* <h3 className="country">{book.volumeInfo.country}</h3>
+			<h3 className="language">Language:<span> {(book.volumeInfo.language).toUpperCase()} </span></h3> */}
 		</div>
 	);
 }
