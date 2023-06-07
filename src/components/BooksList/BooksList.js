@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
+import { Link } from 'react-router-dom';
 import { getBooksBySearchTerm } from '../../api/booksApi';
 
-
-function BooksList({ search, onSelectBook }) {
+function BooksList({ search }) {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
@@ -31,10 +31,13 @@ function BooksList({ search, onSelectBook }) {
 
 			<ul>
 				{books.map((book, index) => (
-					<li key={index}>
-						<a title={book.volumeInfo.title} href="#" onClick={() => onSelectBook(book.id)}>
+                    <li key={index}>
+                        <Link to={`/book/${book.id}`} title={book.volumeInfo.title}>
+                        {book.volumeInfo.title} 
+                        </Link>
+                            {/* <a title={book.volumeInfo.title} href="#" onClick={() => onSelectBook(book.id)}>
 							{book.volumeInfo.title}
-						</a>
+						</a> */}
 					</li>
 				))}
 			</ul>

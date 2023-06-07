@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
-import parse from 'html-react-parser';
-import axios from 'axios';
-import { getBookById } from '../../../api/booksApi';
 
-function BookDetails({ bookId }) {
+import { getBookById } from '../../../api/booksApi';
+import parse from 'html-react-parser';
+// import axios from 'axios';
+import { useParams } from 'react-router-dom';
+
+
+function BookDetails() {
+	const { bookId } = useParams();
 	const [book, setBook] = useState(null);
 	const [error, setError] = useState(false);
 
