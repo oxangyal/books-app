@@ -1,25 +1,12 @@
 .app {
-  max-width: 1200px;
-  margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 20px;
 }
 
-h3{
-  color: rgb(11, 11, 12);
-}
-
-span, 
-.pages{
-  color: blueviolet;
-}
-
-.star {
-  display: inline-block;  
-  width: 16px;
-  height: 16px;
-  background-image: "★";
-  background-size: cover;
-}
-
-.star.filled {
-  background-image: "☆";
+.container {
+    max-width: 1200px;
+    margin: auto;
 }

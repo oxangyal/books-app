@@ -25,6 +25,7 @@ function BookDetails() {
 			})
 			.catch((error) => {
 				console.error(error);
+				setBook({});
 				setError(true);
 			});
 	}, [bookId]);
@@ -47,6 +48,9 @@ function BookDetails() {
 
 
 			<h3 className="category">Date of Publishing: <span>{book.volumeInfo.publishedDate} </span></h3>
+			{book.volumeInfo.previewLink && (
+				<a href={book.volumeInfo.previewLink} target="_blank" rel="noreferrer">Preview Book</a>
+			)}
 
 			{/* <h3 className="country">{book.volumeInfo.country}</h3>
 			<h3 className="language">Language:<span> {(book.volumeInfo.language).toUpperCase()} </span></h3> */}
