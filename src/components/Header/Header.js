@@ -1,4 +1,4 @@
-import "./Header.css";
+import "./Header.scss";
 
 import SearchBar from "../SearchBar/SearchBar";
 import { SearchContext } from "../../context";
@@ -17,19 +17,23 @@ function Header() {
     };
 
     return (
-        <header className="header">
-            <div className="container">
-                <nav className="navigation">
-                    <Link to="/">BooksApp</Link>
+        <>
+            <header className="header">
+                <div className="container">
+                    <nav className="navigation">
+                        <Link to="/">BooksApp</Link>
 
-                    <SearchBar setSearch={handleSearch} />
+                        <SearchBar setSearch={handleSearch} />
 
-                    <Link to="/about">About</Link>
+                        <Link to="/about">About</Link>
 
-                    <ThemeToggler />
-                </nav>
-            </div>
-        </header>
+                        <ThemeToggler />
+                    </nav>
+                </div>
+            </header>
+
+            <div className="breadcrumbs">2131243214</div>
+        </>
     );
 }
 
